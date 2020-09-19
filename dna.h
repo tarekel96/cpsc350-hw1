@@ -105,13 +105,6 @@ class DNA {
         int calculateNumberOfBigrams(string file);
         float calculateProbabilityOfBigram(string file, string bigram);
         void calculateStatistics(string file);
-        int calcNumberOfNucleotides(string file);
-        int calcSum(string arr[], int arrLegth);
         float generateRandomNumber();
         void generateGaussian(string file);
-        // double calcMean(string arr[], int arrLength);
-        // float calcSTD(string arr[]);
-        // int calcLength(string arr[]);
-        // float calcProbOfOneNucleotide(char nucleotide, int arrLength, string arr[]);
-        // float calcProbOfNucleotidePair(char nucleotide1, char nucleotide2, int arrLength, string arr[]);
 };

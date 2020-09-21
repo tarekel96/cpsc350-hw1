@@ -8,7 +8,7 @@ DNA::DNA(string file){
   inFile.open(file);
   // checks to see if can open file - throws error otherwise
   if(inFile.fail()){
-    cerr << "Error in opening file" << endl;
+    cerr << "Error in opening file.\nPlease make sure your file input is correct." << endl;
     exit(1);
   }
   inFile.close();
@@ -181,9 +181,9 @@ int DNA::calculateSum(string file){
   ifstream inFile;
   inFile.open(file);
   int sum = 0;
-  string currentElement;
-  while(getline(inFile, currentElement)){
-    sum += currentElement.length();
+  string currentLine;
+  while(getline(inFile, currentLine)){
+    sum += currentLine.length();
   }
   setSum(sum);
   inFile.close();
@@ -195,9 +195,9 @@ float DNA::calculateMean(string file){
   int counter = 0;
   ifstream inFile;
   inFile.open(file);
-  string currentElement;
-  while(getline(inFile, currentElement)){
-    sum += currentElement.length();
+  string currentLine;
+  while(getline(inFile, currentLine)){
+    sum += currentLine.length();
     counter++;
   }
   mean = (float)sum/counter;
@@ -211,9 +211,9 @@ float DNA::calculateVariance(string file){
   int counter = 0;
   ifstream inFile;
   inFile.open(file);
-  string currentElement;
-  while(getline(inFile, currentElement)){
-    sum += currentElement.length();
+  string currentLine;
+  while(getline(inFile, currentLine)){
+    sum += currentLine.length();
     counter++;
   }
   mean = (float)sum/counter;
@@ -276,14 +276,9 @@ int DNA::calculateNumberOfBigrams(string file){
 // PROBABILITY OF A BIGRAM
 float DNA::calculateProbabilityOfBigram(string file, string bigram){
   int totalNumberOfBigrams = getTotalNumberOfBigrams();
-  // cout << "In nucleotide func: " << totalNumberOfBigrams << endl;
   int countOfBigram = 0;
   // converts the bigram argument to upper case
   transform(bigram.begin(), bigram.end(),bigram.begin(), ::toupper);
-  // string bigram2 = "";
-  // bigram2.push_back(bigram[1]);
-  // bigram2.push_back(bigram[0]);
-  // cout << "BIGRAM 2: " << bigram2 << endl;
   ifstream inFile;
   inFile.open(file);
   string line;
@@ -375,682 +370,54 @@ void DNA::calculateStatistics(string file){
   outFile << "Probability of TG:                                                        " << getProbOfTG() << endl;
   outFile << "Probability of TT:                                                        " << getProbOfTT() << endl;
   outFile.close();
-  generateGaussian("yourname.out");
+  generateOutput("yourname.out");
 }
 // generates a random number between 0 and 1
 float DNA::generateRandomNumber(){
   return ((float)rand() / RAND_MAX);
 }
-// GAUSSIAN DISTRIBUTION LOGIC
-void DNA::generateGaussian(string file){
-  ofstream outFile;
-  outFile.open(file, ios::out | ios::app);
+int DNA::generateNormalRandomVariable(){
   float a = generateRandomNumber();
   float b = generateRandomNumber();
   float c;
   float d;
   c = sqrt(-2 * log(a)) * cos(M_PI * b);
-  cout << "variance " << getVariance() << endl;
-  cout << "mean " << getMean() << endl;
-  d = (variance * c) + mean;
-  cout << "D before: " << d << endl;
-  d = floor(d);
-  cout << "D after: " << d << endl;
-  cout << "A: " << a << endl;
-  cout << "B: " << b << endl;
-  cout << "C: " << c << endl;
-  // length of the string is D for each of the 1000 elements
-  // add handling if the read file has incorrect input
-  int totalNumberOfLetters = d * 1000;
-  cout << "total number of letters: " << totalNumberOfLetters << endl;
-  int numberOfA = floor(getProbOfA() * totalNumberOfLetters);
-  int numberOfC = floor(getProbOfC() * totalNumberOfLetters);
-  int numberOfG = floor(getProbOfG() * totalNumberOfLetters);
-  int numberOfT = floor(getProbOfT() * totalNumberOfLetters);
-  int numberOfAA = floor(getProbOfAA() * (totalNumberOfLetters * 0.5));
-  int numberOfAC = floor(getProbOfAC() * (totalNumberOfLetters * 0.5));
-  int numberOfAG = floor(getProbOfAG() * (totalNumberOfLetters * 0.5));
-  int numberOfAT = floor(getProbOfAT() * (totalNumberOfLetters * 0.5));
-  int numberOfCA = floor(getProbOfCA() * (totalNumberOfLetters * 0.5));
-  int numberOfCC = floor(getProbOfCC() * (totalNumberOfLetters * 0.5));
-  int numberOfCG = floor(getProbOfCG() * (totalNumberOfLetters * 0.5));
-  int numberOfCT = floor(getProbOfCT() * (totalNumberOfLetters * 0.5));
-  int numberOfGA = floor(getProbOfGA() * (totalNumberOfLetters * 0.5));
-  int numberOfGC = floor(getProbOfGC() * (totalNumberOfLetters * 0.5));
-  int numberOfGG = floor(getProbOfGG() * (totalNumberOfLetters * 0.5));
-  int numberOfGT = floor(getProbOfGT() * (totalNumberOfLetters * 0.5));
-  int numberOfTA = floor(getProbOfTA() * (totalNumberOfLetters * 0.5));
-  int numberOfTC = floor(getProbOfTC() * (totalNumberOfLetters * 0.5));
-  int numberOfTG = floor(getProbOfTG() * (totalNumberOfLetters * 0.5));
-  int numberOfTT = floor(getProbOfTT() * (totalNumberOfLetters * 0.5));
-  cout << "NUMBER OF AA: " << numberOfAA << endl;
-  cout << "NUMBER OF AC: " << numberOfAC << endl;
-  cout << "NUMBER OF AG: " << numberOfAG << endl;
-  cout << "NUMBER OF AT: " << numberOfAT << endl;
-  cout << "NUMBER OF TA: " << numberOfTA << endl;
-  cout << "NUMBER OF GA: " << numberOfGA << endl;
-  cout << "NUMBER OF CA: " << numberOfCA << endl;
-  int D = (int)d;
-  int countA = 0;
-  int countC = 0;
-  int countG = 0;
-  int countT = 0;
-  float countAA = 0;
-  float countAC = 0;
-  float countAG = 0;
-  float countAT = 0;
-  float countCA = 0;
-  float countCC = 0;
-  float countCG = 0;
-  float countCT = 0;
-  float countGA = 0;
-  float countGC = 0;
-  float countGG = 0;
-  float countGT = 0;
-  float countTA = 0;
-  float countTC = 0;
-  float countTG = 0;
-  float countTT = 0;
-  bool flip = false;
-  bool flipLine = false;
-
-  cout << "D: " << d << endl;
-
+  d = round((getVariance() * c) + getMean());
+  return d;
+}
+void DNA::generateOutput(string file){
+  ofstream outFile;
+  outFile.open(file, ios::out | ios::app);
+  int D;
   for(int i = 0; i < 1000; ++i){
-    for(int j = 0; j < D; ++j, ++j){
-      // case 1 - AA
-      if(countAA != numberOfAA){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "A";
-            flip = false;
-            flipLine = true;
-            countAA++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "A";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "AA";
-            flipLine = false;
-            countAA++;
-          }
-          else {
-            outFile << "AA";
-            countAA++;
-          }
-        }
-        else {
-          outFile << "AA";
-          countAA++;
-        }
+    D = generateNormalRandomVariable();
+    int numberOfA = round(getProbOfA() * D);
+    int numberOfC = round(getProbOfC() * D);
+    int numberOfG = round(getProbOfG() * D);
+    int numberOfT = round(getProbOfT() * D);
+    int countOfA = 0;
+    int countOfC = 0;
+    int countOfG = 0;
+    int countOfT = 0;
+    for(int j = 0; j < D; ++j){
+      if(countOfA != numberOfA){
+        outFile << "A";
+        countOfA++;
       }
-      // case 2 - AC
-      else if(countAC != numberOfAC){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "C";
-            flip = false;
-            flipLine = true;
-            countAC++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "A";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "AC";
-            flipLine = false;
-            countAC++;
-          }
-          else {
-            outFile << "AC";
-            countAC++;
-          }
-        }
-        else {
-          outFile << "AC";
-          countAC++;
-        }
+      else if(countOfC != numberOfC){
+        outFile << "C";
+        countOfC++;
       }
-      // case 3 - AG
-      else if(countAG != numberOfAG){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "G";
-            flip = false;
-            flipLine = true;
-            countAG++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "A";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "AG";
-            flipLine = false;
-            countAG++;
-          }
-          else {
-            outFile << "AG";
-            countAG++;
-          }
-        }
-        else {
-          outFile << "AG";
-          countAG++;
-        }
+      else if(countOfG != numberOfG){
+        outFile << "G";
+        countOfG++;
       }
-      // case 4 - AT
-      else if(countAT != numberOfAT){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "T";
-            flip = false;
-            flipLine = true;
-            countAT++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "A";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "AT";
-            flipLine = false;
-            countAT++;
-          }
-          else {
-            outFile << "AT";
-            countAT++;
-          }
-        }
-        else {
-          outFile << "AT";
-          countAT++;
-        }
-      }
-      // case 5 - CA
-      else if(countCA != numberOfCA){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "A";
-            flip = false;
-            flipLine = true;
-            countCA++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "A";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "CA";
-            flipLine = false;
-            countCA++;
-          }
-          else {
-            outFile << "CA";
-            countCA++;
-          }
-        }
-        else {
-          outFile << "CA";
-          countCA++;
-        }
-      }
-      // case 6 - CC
-      else if(countCC != numberOfCC){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "C";
-            flip = false;
-            flipLine = true;
-            countCC++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "C";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "CC";
-            flipLine = false;
-            countCC++;
-          }
-          else {
-            outFile << "CC";
-            countCC++;
-          }
-        }
-        else {
-          outFile << "CC";
-          countCC++;
-        }
-      }
-      // case 7 - CG
-      else if(countCG != numberOfCG){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "G";
-            flip = false;
-            flipLine = true;
-            countCG++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "C";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "CG";
-            flipLine = false;
-            countCG++;
-          }
-          else {
-            outFile << "CG";
-            countCG++;
-          }
-        }
-        else {
-          outFile << "CG";
-          countCG++;
-        }
-      }
-      // case 8 - CT
-      else if(countCT != numberOfCT){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "T";
-            flip = false;
-            flipLine = true;
-            countCT++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "C";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "CT";
-            flipLine = false;
-            countCT++;
-          }
-          else {
-            outFile << "CT";
-            countCT++;
-          }
-        }
-        else {
-          outFile << "CT";
-          countCT++;
-        }
-      }
-      // case 9 - GA
-      else if(countGA != numberOfGA){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "A";
-            flip = false;
-            flipLine = true;
-            countGA++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "G";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "GA";
-            flipLine = false;
-            countGA++;
-          }
-          else {
-            outFile << "GA";
-            countGA++;
-          }
-        }
-        else {
-          outFile << "GA";
-          countGA++;
-        }
-      }
-      // case 10 - GC
-      else if(countGC != numberOfGC){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "C";
-            flip = false;
-            flipLine = true;
-            countGC++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "G";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "GC";
-            flipLine = false;
-            countGC++;
-          }
-          else {
-            outFile << "GC";
-            countGC++;
-          }
-        }
-        else {
-          outFile << "GC";
-          countGC++;
-        }
-      }
-      // case 11 - GG
-      else if(countGG != numberOfGG){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "G";
-            flip = false;
-            flipLine = true;
-            countGG++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "G";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "GG";
-            flipLine = false;
-            countGG++;
-          }
-          else {
-            outFile << "GG";
-            countGG++;
-          }
-        }
-        else {
-          outFile << "GG";
-          countGG++;
-        }
-      }
-      // case 12 - GT
-      else if(countGT != numberOfGT){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "T";
-            flip = false;
-            flipLine = true;
-            countGT++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "G";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "GT";
-            flipLine = false;
-            countGT++;
-          }
-          else {
-            outFile << "GT";
-            countGT++;
-          }
-        }
-        else {
-          outFile << "GT";
-          countGT++;
-        }
-      }
-      // case 13 - TA
-      else if(countTA != numberOfTA){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "A";
-            flip = false;
-            flipLine = true;
-            countTA++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "T";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "TA";
-            flipLine = false;
-            countTA++;
-          }
-          else {
-            outFile << "TA";
-            countTA++;
-          }
-        }
-        else {
-          outFile << "TA";
-          countTA++;
-        }
-      }
-      // case 14 - TC
-      else if(countTC != numberOfTC){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "C";
-            flip = false;
-            flipLine = true;
-            countTC++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "T";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "TC";
-            flipLine = false;
-            countTC++;
-          }
-          else {
-            outFile << "TC";
-            countTC++;
-          }
-        }
-        else {
-          outFile << "TC";
-          countTC++;
-        }
-      }
-      // case 15 - TG
-      else if(countTG != numberOfTG){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "G";
-            flip = false;
-            flipLine = true;
-            countTG++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "T";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "TG";
-            flipLine = false;
-            countTG++;
-          }
-          else {
-            outFile << "TG";
-            countTG++;
-          }
-        }
-        else {
-          outFile << "TG";
-          countTG++;
-        }
-      }
-      // case 16 - TT
-      else if(countTT != numberOfTT){
-        if(D % 2 != 0){
-          if(flip){
-            outFile << "T";
-            flip = false;
-            flipLine = true;
-            countTT++;
-            continue;
-          }
-          if(j == D - 1 && flipLine == false){
-            outFile << "T";
-            flip = true;
-          }
-          else if(j == D - 1 && flipLine == true){
-            outFile << "TT";
-            flipLine = false;
-            countTT++;
-          }
-          else {
-            outFile << "TT";
-            countTT++;
-          }
-        }
-        else {
-          outFile << "TT";
-          countTT++;
-        }
-      }
-      else {
-        break;
+      else if(countOfT != numberOfT){
+        outFile << "T";
+        countOfT++;
       }
     }
-    outFile << "\n";
+    outFile << '\n';
   }
   outFile.close();
 }
-// for(int i = 0; i < 1000; ++i){
-//     for(int j = 0; j < D; ++j){
-//       if(countAA < numberOfAA){
-//         if(j == D - 1){
-//           outFile << "A";
-//           countAA = countAA + 0.5;
-//           flip = true;
-//         }
-//         else if(flip == true){
-//           outFile << "A";
-//           countAA = countAA + 0.5;
-//           flip = false;
-//         }
-//         else {
-//           outFile << "AA";
-//           countAA++;
-//           ++j;
-//         }
-//       }
-//       else if(countAC < numberOfAC){
-//         if(j == D - 1){
-//           outFile << "A";
-//           countAC = countAC + 0.5;
-//           flip = true;
-//         }
-//         else if(flip == true){
-//           outFile << "C";
-//           countAC = countAC + 0.5;
-//           flip = false;
-//         }
-//         else {
-//           outFile << "AC";
-//           countAC++;
-//           ++j;
-//         }
-//       }
-//       else if(countAG < numberOfAG){
-//         if(j == D - 1){
-//           outFile << "A";
-//           countAG = countAG + 0.5;
-//           flip = true;
-//         }
-//         else if(flip == true){
-//           outFile << "G";
-//           countAG = countAG + 0.5;
-//           flip = false;
-//         }
-//         else {
-//           outFile << "AG";
-//           countAG++;
-//           ++j;
-//         }
-//       }
-//       else if(countCA < numberOfCA){
-//         if(j == D - 1){
-//           outFile << "C";
-//           countCA = countCA + 0.5;
-//           flip = true;
-//         }
-//         else if(flip == true){
-//           outFile << "A";
-//           countCA = countCA + 0.5;
-//           flip = false;
-//         }
-//         else {
-//           outFile << "CA";
-//           countCA++;
-//           ++j;
-//         }
-//       }
-//       else if(countCC < numberOfCC){
-//         if(j == D - 1){
-//           outFile << "C";
-//           countCC = countCC + 0.5;
-//           flip = true;
-//         }
-//         else if(flip == true){
-//           outFile << "C";
-//           countCC = countCC + 0.5;
-//           flip = false;
-//         }
-//         else {
-//           outFile << "CC";
-//           countCC++;
-//           ++j;
-//         }
-//       }
-//       else if(countCG < numberOfCG){
-//         if(j == D - 1){
-//           outFile << "C";
-//           countCG = countCG + 0.5;
-//           flip = true;
-//         }
-//         else if(flip == true){
-//           outFile << "G";
-//           countCG = countCG + 0.5;
-//           flip = false;
-//         }
-//         else {
-//           outFile << "CG";
-//           countCG++;
-//           ++j;
-//         }
-//       }
-//       else if(countCT < numberOfCT){
-//         if(j == D - 1){
-//           outFile << "C";
-//           countCT = countCT + 0.5;
-//           flip = true;
-//         }
-//         else if(flip == true){
-//           outFile << "T";
-//           countCT = countCT + 0.5;
-//           flip = false;
-//         }
-//         else {
-//           outFile << "CT";
-//           countCT++;
-//           ++j;
-//         }
-//       }
-//     }
-//     outFile << "\n";
-// }

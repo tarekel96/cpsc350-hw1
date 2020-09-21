@@ -106,5 +106,8 @@ class DNA {
         float calculateProbabilityOfBigram(string file, string bigram);
         void calculateStatistics(string file);
         float generateRandomNumber();
+        int generateNormalRandomVariable();
+        string generateRandomLetter();
+        void generateOutput(string file);
         void generateGaussian(string file);
 };

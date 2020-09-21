@@ -8,7 +8,7 @@ DNA::DNA(string file){
   inFile.open(file);
   // checks to see if can open file - throws error otherwise
   if(inFile.fail()){
-    cerr << "Error in opening file.\nPlease make sure your file input is correct." << endl;
+    cerr << "Error in opening file.\nPlease make sure your file input is correct.\n~ Program Terminated." << endl;
     exit(1);
   }
   inFile.close();
@@ -376,6 +376,21 @@ void DNA::calculateStatistics(string file){
 float DNA::generateRandomNumber(){
   return ((float)rand() / RAND_MAX);
 }
+char DNA::generateRandomLetter(){
+  float randomProb = generateRandomNumber();
+  if(randomProb < getProbOfA()){
+    return 'A';
+  }
+  else if((getProbOfA() < randomProb) && (randomProb < (getProbOfA() + getProbOfC()))){
+    return 'C';
+  }
+  else if(((getProbOfA() + getProbOfC()) < randomProb) && (randomProb < (getProbOfA() + getProbOfC() + getProbOfG()))){
+    return 'G';
+  }
+  else {
+    return 'T';
+  }
+}
 int DNA::generateNormalRandomVariable(){
   float a = generateRandomNumber();
   float b = generateRandomNumber();
@@ -391,33 +406,11 @@ void DNA::generateOutput(string file){
   int D;
   for(int i = 0; i < 1000; ++i){
     D = generateNormalRandomVariable();
-    int numberOfA = round(getProbOfA() * D);
-    int numberOfC = round(getProbOfC() * D);
-    int numberOfG = round(getProbOfG() * D);
-    int numberOfT = round(getProbOfT() * D);
-    int countOfA = 0;
-    int countOfC = 0;
-    int countOfG = 0;
-    int countOfT = 0;
+    string line = "";
     for(int j = 0; j < D; ++j){
-      if(countOfA != numberOfA){
-        outFile << "A";
-        countOfA++;
-      }
-      else if(countOfC != numberOfC){
-        outFile << "C";
-        countOfC++;
-      }
-      else if(countOfG != numberOfG){
-        outFile << "G";
-        countOfG++;
-      }
-      else if(countOfT != numberOfT){
-        outFile << "T";
-        countOfT++;
-      }
+      line.push_back(generateRandomLetter());
     }
-    outFile << '\n';
+    outFile << line << '\n';
   }
   outFile.close();
 }

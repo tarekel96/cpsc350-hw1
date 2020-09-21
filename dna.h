@@ -107,7 +107,7 @@ class DNA {
         void calculateStatistics(string file);
         float generateRandomNumber();
         int generateNormalRandomVariable();
-        string generateRandomLetter();
+        char generateRandomLetter();
         void generateOutput(string file);
         void generateGaussian(string file);
 };

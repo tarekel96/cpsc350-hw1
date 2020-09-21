@@ -109,5 +109,4 @@ class DNA {
         int generateNormalRandomVariable();
         char generateRandomLetter();
         void generateOutput(string file);
-        void generateGaussian(string file);
 };

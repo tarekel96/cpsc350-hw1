@@ -9,9 +9,11 @@ int main(int argv, char ** argc){
           cout << "Enter the name of the file you would like to process: " << endl;
           cin >> response;
           DNA* dna = new DNA(response);
+          cout << "Generated Results in yourname.out" << endl;
         }
         else {
           DNA* dna = new DNA(argc[1]);
+          cout << "Generated Results in yourname.out" << endl;
           first = false;
         }
 

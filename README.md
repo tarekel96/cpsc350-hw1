@@ -31,6 +31,6 @@ cpsc350-hw1: C++ Nucleotides Input/Output File Assignment
 
 5)
   Instructions to run assignment:
-   1) Compile with Makefile command: make all
+   1) Compile with: g++ *.cpp
    2) Run a.out followed by the name of the input file: ./a.out fileName
    3) Follow the instructions of the program that are prompted on the console.
